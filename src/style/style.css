@@ -2,3 +2,13 @@
   font-family: 'Rubik', sans-serif;
   text-transform: uppercase;
 }
+
+.outlined {
+  width: 7rem;
+  height: 7rem;
+  outline: 4px solid thick rgb(5, 102, 5);
+  background-color: rgb(245, 245, 244);
+  overflow: hidden;
+  border: radius 999px;
+  margin-left: 4rem;
+}

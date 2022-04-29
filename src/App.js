@@ -46,8 +46,8 @@ class YahtzeeGame {
 
     //Initialize scoreboard values and filled statuses
     for (let i = 0; i < 13; i++) {
-      this.scoreboardPlayer[i] = 0;
-      this.scoreboardCPU[i] = 0;
+      this.scoreboardPlayer[i] = -1;
+      this.scoreboardCPU[i] = -1;
 
       this.scoreboardFilled_Player[i] = false;
       this.scoreboardFilled_CPU[i] = false;
@@ -234,7 +234,7 @@ class YahtzeeGame {
 
     this.resetDiceSelection();
 
-    await this.cpu_play();
+    // await this.cpu_play();
   }
 
   selectScore_CPU(scoreIndex) {
@@ -287,6 +287,9 @@ class YahtzeeGame {
       this.finalScorePlayer += this.scoreboardPlayer[i];
       this.finalScoreCPU += this.scoreboardCPU[i];
     }
+
+    this.checkBonusPlayer();
+    this.checkBonusCPU();
 
     if (this.bonusPlayer) this.finalScorePlayer += 35;
 
@@ -546,22 +549,30 @@ class YahtzeeGame {
   cpu_select2() {
     console.log('using select2...');
     if (this.rollCounter == 3) {
-      if (!this.scoreboardFilled_CPU[9]) {
+      //console.log(this.rollCounter);
+
+      if (
+        !this.scoreboardFilled_CPU[9] &&
+        this.scoreboardPossibleValues[9] != 0
+      ) {
         //if small straight available
-        if (this.scoreboardPossibleValues[9] != 0) this.selectScore_CPU(9);
-      } else if (!this.scoreboardFilled_CPU[8]) {
+        this.selectScore_CPU(9);
+      } else if (
+        !this.scoreboardFilled_CPU[8] &&
+        this.valueOccurences.indexOf(3) != -1
+      ) {
         //if FH is available
-        if (this.valueOccurences.indexOf(3) != -1) {
-          this.selectScore_CPU(8);
-        }
+        this.selectScore_CPU(8);
       } else if (!this.scoreboardFilled_CPU[11]) {
         //if chance available
         this.selectScore_CPU(11);
       } else {
         //failsafe
+        //console.log("Failsafe");
         for (var i = 12; i >= 0; i--) {
           if (!this.scoreboardFilled_CPU[i]) {
             this.selectScore_CPU(i);
+
             break;
           }
         }
@@ -574,7 +585,7 @@ class YahtzeeGame {
           num2s++;
         }
       }
-      console.log('Num 2s: ' + num2s);
+      //console.log("Num 2s: " + num2s);
       if (num2s == 2) {
         for (var i = 0; i < 6; i++) {
           //select the dice that have 2 occurences
@@ -582,7 +593,7 @@ class YahtzeeGame {
             for (var j = 0; j < 5; j++) {
               if (this.diceValues[j] == i + 1) {
                 this.selectDice(j);
-                console.log('Dice #' + j + ' selected');
+                //console.log("Dice #" + j + " selected");
               }
             }
           }
