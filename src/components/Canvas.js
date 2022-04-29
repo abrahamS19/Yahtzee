@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Title } from '@mantine/core';
+import { Container, Title, Modal, Button, Group, Text } from '@mantine/core';
 import Scoreboard from './Scoreboard';
 import Gamespace from './Gamespace';
 
@@ -99,6 +99,7 @@ const Canvas = ({ classObject }) => {
   ];
 
   const [tableValues, setTableValues] = useState(table);
+  const [opened, setOpened] = useState(false);
   return (
     <Container size="2xl" pt="lg" px="xl">
       <div className="w-full h-[892px] rounded-3xl bg-gradient-to-r from-violet-500 to-fuchsia-500">
@@ -108,14 +109,116 @@ const Canvas = ({ classObject }) => {
         >
           YAHTZEE | 頂きます
         </Title>
-        {/* <div className="w-full flex gap-x-3 justify-center mt-10"> */}
+        <Group position="right">
+          <Button
+            className="text-orange-200 mr-[8rem] pt-[-20px]"
+            style={{ fontFamily: 'Rubik', fontSize: '1.5rem' }}
+            onClick={() => setOpened(true)}
+          >
+            Rules
+          </Button>
+        </Group>
+
+        <Modal opened={opened} size="xl" onClose={() => setOpened(false)}>
+          <Title
+            className="text-center text-orange-600"
+            style={{ fontFamily: 'Rubik' }}
+          >
+            Rules
+          </Title>
+          <div className="m-8">
+            <Text className="text-cyan-600 font-bold">
+              Ones:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many ones as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Twos:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many twos as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Threes:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many threes as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Fours:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many fours as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Fives:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many fives as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Sixes:{' '}
+              <Text className="inline text-black font-normal">
+                Get as many sixes as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Three of a kind:{' '}
+              <Text className="inline text-black font-normal">
+                Get three dice with the same number. Points are the sum all dice
+                (not just the three of a kind)
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Four of a kind:{' '}
+              <Text className="inline text-black font-normal">
+                Get four dice with the same number. Points are the sum all dice
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Full House:{' '}
+              <Text className="inline text-black font-normal">
+                Get three of a kind and a pair. For instance, 1,1,3,3,3 or
+                3,3,3,6,6 score 25 points
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Small straight:{' '}
+              <Text className="inline text-black font-normal">
+                Get four sequential dice, 1,2,3,4 or 2,3,4,5 or 3,4,5,6. Scores
+                30 points
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Large straight:{' '}
+              <Text className="inline text-black font-normal">
+                Get five sequential dice, 1,2,3,4,5 or 2,3,4,5,6. Scores 40
+                points
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              Chance:{' '}
+              <Text className="inline text-black font-normal">
+                Sum of face values of all dice. Basically a garbage can to get
+                as big number as possible
+              </Text>
+            </Text>
+            <Text className="text-cyan-600 font-bold">
+              YAHTZEE:{' '}
+              <Text className="inline text-black font-normal">
+                Five of a kind. Scores 50 points. You can optionally get
+                multiple Yahtzees
+              </Text>
+            </Text>
+          </div>
+        </Modal>
+
         <Gamespace
           classObject={classObject}
           table={table}
           setTableValues={setTableValues}
         />
-        {/* <Scoreboard classObject={classObject} table={table} />
-        </div> */}
       </div>
     </Container>
   );
